@@ -30,10 +30,8 @@ public class UsuarioDTO implements Serializable {
     @NotEmpty
     @Size(max = 255)
     private String email;
-    @NotNull
-    @NotEmpty
-    @Size(max = 255)
-    private String enable;
+  
+    private Boolean enable;
     @NotNull
     @NotEmpty
     @Size(max = 255)
@@ -42,6 +40,7 @@ public class UsuarioDTO implements Serializable {
     @NotEmpty
     @Size(max = 255)
     private String password;
+    
     private Integer idtipousuario_Tipousuario;
 	
     public UsuarioDTO() {
@@ -50,7 +49,7 @@ public class UsuarioDTO implements Serializable {
 
 	public UsuarioDTO(@NotNull @NotEmpty @Size(max = 255) String apellido,
 			@NotNull @NotEmpty @Size(max = 255) String direccion, @NotNull @NotEmpty @Size(max = 255) String email,
-			@NotNull @NotEmpty @Size(max = 255) String enable, @NotNull @NotEmpty @Size(max = 255) String nombre,
+			@NotNull @NotEmpty @Size(max = 255) Boolean enable, @NotNull @NotEmpty @Size(max = 255) String nombre,
 			@NotNull @NotEmpty @Size(max = 255) String password, Integer idtipousuario_Tipousuario) {
 		super();
 		this.apellido = apellido;
@@ -86,11 +85,11 @@ public class UsuarioDTO implements Serializable {
 		this.email = email;
 	}
 
-	public String getEnable() {
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(String enable) {
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 

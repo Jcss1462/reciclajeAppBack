@@ -1,6 +1,7 @@
 package com.reciclajeApp.security;
 
 import static com.reciclajeApp.security.Constants.LOGIN_URL;
+import static com.reciclajeApp.security.Constants.SAVEUSER_URL;
 
 
 
@@ -57,7 +58,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.csrf()
 				.disable()
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, LOGIN_URL)
+				.antMatchers(HttpMethod.POST, LOGIN_URL, SAVEUSER_URL)
 				.permitAll()
 				.anyRequest()
 				.authenticated()

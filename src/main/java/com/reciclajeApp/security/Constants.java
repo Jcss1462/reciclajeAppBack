@@ -10,6 +10,7 @@ public class Constants {
 	// Spring Security
 
 	public static final String LOGIN_URL = "/login";
+	public static final String SAVEUSER_URL = "/api/v1/usuario/save";
 	
 	
 	public static final String HEADER_AUTHORIZACION_KEY = "Authorization";

@@ -62,6 +62,22 @@ public class UsuarioRestController {
  		return ResponseEntity.ok().body(usuariosDto);
 
  	}
+ 	
+ 	@PostMapping("/save")
+	// envio los datos por el body de la peticion http
+	//@valid valida la entrada
+	public ResponseEntity<?> save(@Valid @RequestBody UsuarioDTO usuarioDTO) throws Exception {
+
+		// mapeo lo que recibo a usuario
+		Usuario usuario = usuarioMapper.usuarioDTOToUsuario(usuarioDTO);
+		// guardo el customer
+		usuario = usuarioService.save(usuario);
+		// convierto lo guardo a dto para retornarlo
+		usuarioDTO = usuarioMapper.usuarioToUsuarioDTO(usuario);
+
+		return ResponseEntity.ok().body(usuarioDTO);
+
+	}
 
     
 }

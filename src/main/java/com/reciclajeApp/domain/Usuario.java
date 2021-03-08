@@ -40,11 +40,9 @@ public class Usuario implements java.io.Serializable {
 	@Size(max = 255)
 	@Column(name = "direccion", nullable = false)
 	private String direccion;
-	@NotNull
-	@NotEmpty
-	@Size(max = 255)
+	
 	@Column(name = "enable", nullable = false)
-	private String enable;
+	private Boolean enable;
 	@NotNull
 	@NotEmpty
 	@Size(max = 255)
@@ -62,7 +60,7 @@ public class Usuario implements java.io.Serializable {
 
 	public Usuario(@NotNull String email, @NotNull Tipousuario tipousuario,
 			@NotNull @NotEmpty @Size(max = 255) String apellido, @NotNull @NotEmpty @Size(max = 255) String direccion,
-			@NotNull @NotEmpty @Size(max = 255) String enable, @NotNull @NotEmpty @Size(max = 255) String nombre,
+			@NotNull @NotEmpty @Size(max = 255) Boolean enable, @NotNull @NotEmpty @Size(max = 255) String nombre,
 			@NotNull @NotEmpty @Size(max = 255) String password) {
 		super();
 		this.email = email;
@@ -106,11 +104,11 @@ public class Usuario implements java.io.Serializable {
 		this.direccion = direccion;
 	}
 
-	public String getEnable() {
+	public Boolean getEnable() {
 		return enable;
 	}
 
-	public void setEnable(String enable) {
+	public void setEnable(Boolean enable) {
 		this.enable = enable;
 	}
 
