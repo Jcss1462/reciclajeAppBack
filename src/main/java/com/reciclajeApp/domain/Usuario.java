@@ -2,12 +2,16 @@ package com.reciclajeApp.domain;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -53,15 +57,19 @@ public class Usuario implements java.io.Serializable {
 	@Size(max = 255)
 	@Column(name = "password", nullable = false)
 	private String password;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
+	private List<Venta> ventas = new ArrayList<>();
 
 	public Usuario() {
 		super();
 	}
 
+	
 	public Usuario(@NotNull String email, @NotNull Tipousuario tipousuario,
 			@NotNull @NotEmpty @Size(max = 255) String apellido, @NotNull @NotEmpty @Size(max = 255) String direccion,
-			@NotNull @NotEmpty @Size(max = 255) Boolean enable, @NotNull @NotEmpty @Size(max = 255) String nombre,
-			@NotNull @NotEmpty @Size(max = 255) String password) {
+			Boolean enable, @NotNull @NotEmpty @Size(max = 255) String nombre,
+			@NotNull @NotEmpty @Size(max = 255) String password, List<Venta> ventas) {
 		super();
 		this.email = email;
 		this.tipousuario = tipousuario;
@@ -70,7 +78,10 @@ public class Usuario implements java.io.Serializable {
 		this.enable = enable;
 		this.nombre = nombre;
 		this.password = password;
+		this.ventas = ventas;
 	}
+
+
 
 	public String getEmail() {
 		return email;
@@ -127,6 +138,18 @@ public class Usuario implements java.io.Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+
+	public List<Venta> getVentas() {
+		return ventas;
+	}
+
+
+	public void setVentas(List<Venta> ventas) {
+		this.ventas = ventas;
+	}
+
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
