@@ -40,9 +40,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Optional<Usuario> findById(String id) {
+	public Optional<Usuario> findById(String id)throws Exception {
+		
+		if(id==null) {
+			throw new Exception("email vacio");
+		}
+		if(!usuarioRepository.existsById(id)) {
+			
+			throw new Exception("El usuario con email: "+id+" no existe");
+		}
 		// TODO Auto-generated method stub
-		return null;
+		return usuarioRepository.findById(id);
 	}
 
 	@Override

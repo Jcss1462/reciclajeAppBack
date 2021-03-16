@@ -43,9 +43,18 @@ public class VentaServiceImpl implements VentaService {
 	}
 
 	@Override
-	public Optional<Venta> findById(Integer id) {
+	public Optional<Venta> findById(Integer id) throws Exception{
+		
+		if(id==null) {
+			throw new Exception("Id vacio");
+		}
+		if(!ventaRepository.existsById(id)) {
+			
+			throw new Exception("La venta con id: "+id+" no existe");
+		}
+		Optional<Venta> ventaOptinal=ventaRepository.findById(id);
 		// TODO Auto-generated method stub
-		return null;
+		return ventaOptinal;
 	}
 
 	@Override
@@ -68,13 +77,25 @@ public class VentaServiceImpl implements VentaService {
 
 	@Override
 	public void delete(Venta entity) throws Exception {
-		// TODO Auto-generated method stub
+		
+		validate(entity);
+		
+		ventaRepository.delete(entity);
 
 	}
 
 	@Override
 	public void deleteById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
+		
+		if(id==null) {
+			throw new Exception("Id vacio");
+		}
+		if(!ventaRepository.existsById(id)) {
+			
+			throw new Exception("La venta con id: "+id+" no existe");
+		}
+		
+		ventaRepository.deleteById(id);
 
 	}
 
