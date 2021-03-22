@@ -1,14 +1,10 @@
 package com.reciclajeApp.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -41,8 +37,55 @@ public class Tiporesiduo implements java.io.Serializable {
 	@Size(max = 255)
 	@Column(name = "tipo", nullable = false)
 	private String tipo;
+	
+	
+	public Tiporesiduo() {
+		super();
+	}
+	
+	
+	
+	public Tiporesiduo(@NotNull Integer idtiporesiduo, @NotNull Date fechaactualizacion, @NotNull Double precio,
+			@NotNull @NotEmpty @Size(max = 255) String tipo) {
+		super();
+		this.idtiporesiduo = idtiporesiduo;
+		this.fechaactualizacion = fechaactualizacion;
+		this.precio = precio;
+		this.tipo = tipo;
+	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tiporesiduo")
-	private List<VentaHasTiporesiduo> ventaHasTiporesiduos = new ArrayList<>();
+
+
+	public Integer getIdtiporesiduo() {
+		return idtiporesiduo;
+	}
+	public void setIdtiporesiduo(Integer idtiporesiduo) {
+		this.idtiporesiduo = idtiporesiduo;
+	}
+	public Date getFechaactualizacion() {
+		return fechaactualizacion;
+	}
+	public void setFechaactualizacion(Date fechaactualizacion) {
+		this.fechaactualizacion = fechaactualizacion;
+	}
+	public Double getPrecio() {
+		return precio;
+	}
+	public void setPrecio(Double precio) {
+		this.precio = precio;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	
+
+
 
 }

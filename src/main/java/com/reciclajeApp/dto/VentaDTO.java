@@ -13,30 +13,33 @@ import javax.validation.constraints.NotNull;
 */
 
 public class VentaDTO implements Serializable {
+    
     private static final long serialVersionUID = 1L;
-    @NotNull
+   
     private Date fechaventa;
-    @NotNull
+    
     private Integer idventa;
     @NotNull
     private Double peso;
     @NotNull
     private Double total;
     private Integer idestadoventa_Estadoventa;
+    private Integer idtiporesiduo_Tiporesiduo;
     private String email_Usuario;
 	
     public VentaDTO() {
 		super();
 	}
 
-	public VentaDTO(@NotNull Date fechaventa, @NotNull Integer idventa, @NotNull Double peso, @NotNull Double total,
-			Integer idestadoventa_Estadoventa, String email_Usuario) {
+	public VentaDTO(Date fechaventa, Integer idventa, @NotNull Double peso, @NotNull Double total,
+			Integer idestadoventa_Estadoventa, Integer idtiporesiduo_Tiporesiduo, String email_Usuario) {
 		super();
 		this.fechaventa = fechaventa;
 		this.idventa = idventa;
 		this.peso = peso;
 		this.total = total;
 		this.idestadoventa_Estadoventa = idestadoventa_Estadoventa;
+		this.idtiporesiduo_Tiporesiduo = idtiporesiduo_Tiporesiduo;
 		this.email_Usuario = email_Usuario;
 	}
 
@@ -80,6 +83,14 @@ public class VentaDTO implements Serializable {
 		this.idestadoventa_Estadoventa = idestadoventa_Estadoventa;
 	}
 
+	public Integer getIdtiporesiduo_Tiporesiduo() {
+		return idtiporesiduo_Tiporesiduo;
+	}
+
+	public void setIdtiporesiduo_Tiporesiduo(Integer idtiporesiduo_Tiporesiduo) {
+		this.idtiporesiduo_Tiporesiduo = idtiporesiduo_Tiporesiduo;
+	}
+
 	public String getEmail_Usuario() {
 		return email_Usuario;
 	}
@@ -91,7 +102,8 @@ public class VentaDTO implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
+
+	
     
     
     

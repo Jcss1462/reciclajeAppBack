@@ -61,10 +61,7 @@ public class VentaServiceImpl implements VentaService {
 	public Venta save(Venta entity) throws Exception {
 		// valido
 		validate(entity);
-		// compruebo, si existe lanza el error
-		if (ventaRepository.existsById(entity.getIdventa())) {
-			throw new Exception("La venta con id:" + entity.getIdventa() + " ya existe");
-		}
+		
 		// TODO Auto-generated method stub
 		return ventaRepository.save(entity);
 	}

@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +29,7 @@ public class Venta implements java.io.Serializable {
 
 	@Id
 	@Column(name = "idventa", unique = true, nullable = false)
-	@NotNull
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idventa;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,19 +51,21 @@ public class Venta implements java.io.Serializable {
 	@Column(name = "total", nullable = false)
 	private Double total;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idtiporesiduo")
+	@NotNull
+	private Tiporesiduo tiporesiduo;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "venta")
 	private List<VentaHasEstadoresiduo> ventaHasEstadoresiduos = new ArrayList<>();
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "venta")
-	private List<VentaHasTiporesiduo> ventaHasTiporesiduos = new ArrayList<>();
-	
+
 	public Venta() {
 		super();
 	}
 
-
-	public Venta(@NotNull Integer idventa, @NotNull Estadoventa estadoventa, @NotNull Usuario usuario,
-			@NotNull Date fechaventa, @NotNull Double peso, @NotNull Double total,
-			List<VentaHasEstadoresiduo> ventaHasEstadoresiduos, List<VentaHasTiporesiduo> ventaHasTiporesiduos) {
+	public Venta(Integer idventa, @NotNull Estadoventa estadoventa, @NotNull Usuario usuario,
+			@NotNull Date fechaventa, @NotNull Double peso, @NotNull Double total, @NotNull Tiporesiduo tiporesiduo,
+			List<VentaHasEstadoresiduo> ventaHasEstadoresiduos) {
 		super();
 		this.idventa = idventa;
 		this.estadoventa = estadoventa;
@@ -69,113 +73,78 @@ public class Venta implements java.io.Serializable {
 		this.fechaventa = fechaventa;
 		this.peso = peso;
 		this.total = total;
+		this.tiporesiduo = tiporesiduo;
 		this.ventaHasEstadoresiduos = ventaHasEstadoresiduos;
-		this.ventaHasTiporesiduos = ventaHasTiporesiduos;
 	}
 
-
-
+	
 	public Integer getIdventa() {
 		return idventa;
 	}
-
-
 
 	public void setIdventa(Integer idventa) {
 		this.idventa = idventa;
 	}
 
-
-
 	public Estadoventa getEstadoventa() {
 		return estadoventa;
 	}
-
-
 
 	public void setEstadoventa(Estadoventa estadoventa) {
 		this.estadoventa = estadoventa;
 	}
 
-
-
 	public Usuario getUsuario() {
 		return usuario;
 	}
-
-
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
-
-
 	public Date getFechaventa() {
 		return fechaventa;
 	}
-
-
 
 	public void setFechaventa(Date fechaventa) {
 		this.fechaventa = fechaventa;
 	}
 
-
-
 	public Double getPeso() {
 		return peso;
 	}
-
-
 
 	public void setPeso(Double peso) {
 		this.peso = peso;
 	}
 
-
-
 	public Double getTotal() {
 		return total;
 	}
-
-
 
 	public void setTotal(Double total) {
 		this.total = total;
 	}
 
+	public Tiporesiduo getTiporesiduo() {
+		return tiporesiduo;
+	}
 
+	public void setTiporesiduo(Tiporesiduo tiporesiduo) {
+		this.tiporesiduo = tiporesiduo;
+	}
 
 	public List<VentaHasEstadoresiduo> getVentaHasEstadoresiduos() {
 		return ventaHasEstadoresiduos;
 	}
 
-
-
 	public void setVentaHasEstadoresiduos(List<VentaHasEstadoresiduo> ventaHasEstadoresiduos) {
 		this.ventaHasEstadoresiduos = ventaHasEstadoresiduos;
 	}
 
-
-
-	public List<VentaHasTiporesiduo> getVentaHasTiporesiduos() {
-		return ventaHasTiporesiduos;
-	}
-
-
-
-	public void setVentaHasTiporesiduos(List<VentaHasTiporesiduo> ventaHasTiporesiduos) {
-		this.ventaHasTiporesiduos = ventaHasTiporesiduos;
-	}
-
-
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 	
 	
 
