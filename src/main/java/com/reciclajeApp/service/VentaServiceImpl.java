@@ -43,16 +43,16 @@ public class VentaServiceImpl implements VentaService {
 	}
 
 	@Override
-	public Optional<Venta> findById(Integer id) throws Exception{
-		
-		if(id==null) {
+	public Optional<Venta> findById(Integer id) throws Exception {
+
+		if (id == null) {
 			throw new Exception("Id vacio");
 		}
-		if(!ventaRepository.existsById(id)) {
-			
-			throw new Exception("La venta con id: "+id+" no existe");
+		if (!ventaRepository.existsById(id)) {
+
+			throw new Exception("La venta con id: " + id + " no existe");
 		}
-		Optional<Venta> ventaOptinal=ventaRepository.findById(id);
+		Optional<Venta> ventaOptinal = ventaRepository.findById(id);
 		// TODO Auto-generated method stub
 		return ventaOptinal;
 	}
@@ -61,37 +61,49 @@ public class VentaServiceImpl implements VentaService {
 	public Venta save(Venta entity) throws Exception {
 		// valido
 		validate(entity);
-		
+
 		// TODO Auto-generated method stub
 		return ventaRepository.save(entity);
 	}
 
 	@Override
 	public Venta update(Venta entity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		// si es nulo o esta en blanco
+		if (entity.getIdventa() == null) {
+			throw new Exception("El idVenta es obligatorio");
+		}
+
+		// valido
+		validate(entity);
+
+		// si no existe lanza el error
+		if (ventaRepository.existsById(entity.getIdventa()) == false) {
+			throw new Exception("La venta con id:" + entity.getIdventa() + " no existe");
+		}
+
+		return ventaRepository.save(entity);
 	}
 
 	@Override
 	public void delete(Venta entity) throws Exception {
-		
+
 		validate(entity);
-		
+
 		ventaRepository.delete(entity);
 
 	}
 
 	@Override
 	public void deleteById(Integer id) throws Exception {
-		
-		if(id==null) {
+
+		if (id == null) {
 			throw new Exception("Id vacio");
 		}
-		if(!ventaRepository.existsById(id)) {
-			
-			throw new Exception("La venta con id: "+id+" no existe");
+		if (!ventaRepository.existsById(id)) {
+
+			throw new Exception("La venta con id: " + id + " no existe");
 		}
-		
+
 		ventaRepository.deleteById(id);
 
 	}
@@ -120,8 +132,8 @@ public class VentaServiceImpl implements VentaService {
 	}
 
 	@Override
-	public List<Venta> findAllVentasByUser(String email) throws Exception{
-		
+	public List<Venta> findAllVentasByUser(String email) throws Exception {
+
 		if (email == null || email.isBlank()) {
 			throw new Exception("Email no ingresado");
 		}
