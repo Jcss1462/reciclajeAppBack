@@ -56,16 +56,15 @@ public class Venta implements java.io.Serializable {
 	@NotNull
 	private Tiporesiduo tiporesiduo;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "venta")
-	private List<VentaHasEstadoresiduo> ventaHasEstadoresiduos = new ArrayList<>();
+
 
 	public Venta() {
 		super();
 	}
 
 	public Venta(Integer idventa, @NotNull Estadoventa estadoventa, @NotNull Usuario usuario,
-			@NotNull Date fechaventa, @NotNull Double peso, @NotNull Double total, @NotNull Tiporesiduo tiporesiduo,
-			List<VentaHasEstadoresiduo> ventaHasEstadoresiduos) {
+			@NotNull Date fechaventa, @NotNull Double peso, @NotNull Double total, @NotNull Tiporesiduo tiporesiduo
+			) {
 		super();
 		this.idventa = idventa;
 		this.estadoventa = estadoventa;
@@ -74,7 +73,7 @@ public class Venta implements java.io.Serializable {
 		this.peso = peso;
 		this.total = total;
 		this.tiporesiduo = tiporesiduo;
-		this.ventaHasEstadoresiduos = ventaHasEstadoresiduos;
+		
 	}
 
 	
@@ -134,13 +133,6 @@ public class Venta implements java.io.Serializable {
 		this.tiporesiduo = tiporesiduo;
 	}
 
-	public List<VentaHasEstadoresiduo> getVentaHasEstadoresiduos() {
-		return ventaHasEstadoresiduos;
-	}
-
-	public void setVentaHasEstadoresiduos(List<VentaHasEstadoresiduo> ventaHasEstadoresiduos) {
-		this.ventaHasEstadoresiduos = ventaHasEstadoresiduos;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
