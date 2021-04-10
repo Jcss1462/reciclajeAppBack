@@ -26,13 +26,14 @@ public class VentaDTO implements Serializable {
     private Integer idestadoventa_Estadoventa;
     private Integer idtiporesiduo_Tiporesiduo;
     private String email_Usuario;
+    private String tipo;
 	
     public VentaDTO() {
 		super();
 	}
 
 	public VentaDTO(Date fechaventa, Integer idventa, @NotNull Double peso, @NotNull Double total,
-			Integer idestadoventa_Estadoventa, Integer idtiporesiduo_Tiporesiduo, String email_Usuario) {
+			Integer idestadoventa_Estadoventa, Integer idtiporesiduo_Tiporesiduo, String email_Usuario, String tipo) {
 		super();
 		this.fechaventa = fechaventa;
 		this.idventa = idventa;
@@ -41,6 +42,7 @@ public class VentaDTO implements Serializable {
 		this.idestadoventa_Estadoventa = idestadoventa_Estadoventa;
 		this.idtiporesiduo_Tiporesiduo = idtiporesiduo_Tiporesiduo;
 		this.email_Usuario = email_Usuario;
+		this.tipo=tipo;
 	}
 
 	public Date getFechaventa() {
@@ -101,6 +103,14 @@ public class VentaDTO implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	

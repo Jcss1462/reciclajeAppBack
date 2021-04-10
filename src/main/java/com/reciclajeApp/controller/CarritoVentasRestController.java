@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,7 +83,8 @@ public class CarritoVentasRestController {
 		venta = ventaService.save(venta);
 
 		ventaDTO = ventaMapper.ventaToVentaDTO(venta);
-
+		
+		
 		return ResponseEntity.ok().body(ventaDTO);
 
 	}
@@ -94,6 +96,7 @@ public class CarritoVentasRestController {
 	public ResponseEntity<?> findMyVentas(@PathVariable("email") String email) throws Exception {
 
 		List<Venta> ventas = ventaService.findAllVentasByUser(email);
+		
 		List<VentaDTO> ventasDto = ventaMapper.listVentaToListVentaDTO(ventas);
 
 		return ResponseEntity.ok().body(ventasDto);
@@ -137,6 +140,31 @@ public class CarritoVentasRestController {
 		ventaService.deleteById(id);
 
 		return ResponseEntity.ok().build();
+
+	}
+	
+	
+	@PutMapping("/updateVenta")
+	// envio los datos por el body de la peticion http
+	// @valid valida la entrada
+	public ResponseEntity<?> updateVenta(@Valid @RequestBody VentaDTO ventaDTO) throws Exception {
+
+		// mapeo lo que recibo a product
+		Venta venta = ventaMapper.ventaDTOToVenta(ventaDTO);
+		
+		
+		//coloco la nueva fecha
+		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
+		log.info("fecha actual:" + date1);
+		venta.setFechaventa(date1);
+		
+		//actualizo
+		venta=ventaService.update(venta);
+		
+		// convierto lo guardo a dto para retornarlo
+		ventaDTO = ventaMapper.ventaToVentaDTO(venta);
+
+		return ResponseEntity.ok().body(ventaDTO);
 
 	}
 
