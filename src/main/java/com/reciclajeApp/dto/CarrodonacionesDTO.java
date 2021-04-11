@@ -2,8 +2,6 @@ package com.reciclajeApp.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotNull;
-
 
 /**
 * @author Zathura Code Generator Version 9.0 http://zathuracode.org

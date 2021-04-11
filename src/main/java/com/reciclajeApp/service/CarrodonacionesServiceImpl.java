@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.reciclajeApp.domain.Carrodonaciones;
-import com.reciclajeApp.domain.Venta;
 import com.reciclajeApp.repository.CarrodonacionesRepository;
+import com.reciclajeApp.repository.UsuarioRepository;
 
 /**
 * @author Zathura Code Generator Version 9.0 http://zathuracode.org/
@@ -29,6 +29,9 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 
 	@Autowired
 	private CarrodonacionesRepository carrodonacionesRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
 	private Validator validator;
@@ -92,7 +95,8 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 		if (entity == null) {
 			throw new Exception("La venta es nula");
 		}
-
+		
+	
 		// validator
 		// retorna una lista de los constraint violados
 		Set<ConstraintViolation<Carrodonaciones>> constrintViolation = validator.validate(entity);
@@ -114,6 +118,11 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 		if (email == null) {
 			throw new Exception("email vacio");
 		}
+		
+		if (usuarioRepository.existsById(email)==false) {
+			throw new Exception("El usuario con email "+email+" no existe");
+		}
+
 		
 		return carrodonacionesRepository.findAllByUserCarrosByEnable(email);
 	}

@@ -1,13 +1,12 @@
 package com.reciclajeApp.mapper;
 
-import com.reciclajeApp.domain.Donacion;
-
-import com.reciclajeApp.dto.DonacionDTO;
+import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
+import com.reciclajeApp.domain.Donacion;
+import com.reciclajeApp.dto.DonacionDTO;
 
 
 /**
@@ -22,9 +21,11 @@ import java.util.List;
 @Mapper
 public interface DonacionMapper {
     @Mapping(source = "tiporesiduo.idtiporesiduo", target = "idtiporesiduo_Tiporesiduo")
+    @Mapping(source = "tiporesiduo.tipo", target = "tipo")
     public DonacionDTO donacionToDonacionDTO(Donacion donacion);
 
     @Mapping(source = "idtiporesiduo_Tiporesiduo", target = "tiporesiduo.idtiporesiduo")
+    @Mapping(source = "tipo", target = "tiporesiduo.tipo")
     public Donacion donacionDTOToDonacion(DonacionDTO donacionDTO);
 
     public List<DonacionDTO> listDonacionToListDonacionDTO(

@@ -4,6 +4,8 @@ package com.reciclajeApp.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,7 +24,7 @@ public class CarrodonacionHasDonacion implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "idcarrohasdonacion", unique = true, nullable = false)
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idcarrohasdonacion;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idcarrodonacion")
@@ -37,7 +39,7 @@ public class CarrodonacionHasDonacion implements java.io.Serializable {
 		super();
 	}
 
-	public CarrodonacionHasDonacion(@NotNull Integer idcarrohasdonacion, @NotNull Carrodonaciones carrodonaciones,
+	public CarrodonacionHasDonacion(Integer idcarrohasdonacion, @NotNull Carrodonaciones carrodonaciones,
 			@NotNull Donacion donacion) {
 		super();
 		this.idcarrohasdonacion = idcarrohasdonacion;

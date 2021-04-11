@@ -5,7 +5,8 @@ import com.reciclajeApp.domain.*;
 import com.reciclajeApp.dto.UsuarioDTO;
 import com.reciclajeApp.dto.VentaDTO;
 import com.reciclajeApp.mapper.UsuarioMapper;
-
+import com.reciclajeApp.service.CarrodonacionesService;
+import com.reciclajeApp.service.EstadocarrodonacionService;
 import com.reciclajeApp.service.UsuarioService;
 
 import org.slf4j.Logger;
@@ -44,6 +45,12 @@ public class UsuarioRestController {
 	private UsuarioService usuarioService;
 	@Autowired
 	private UsuarioMapper usuarioMapper;
+	
+	//para los nuevos usuarios ciudadanos
+	@Autowired
+	private EstadocarrodonacionService estadoCarroDeDonacionService;
+	@Autowired
+	private CarrodonacionesService carroDonacionService;
 
 	// Get http
 	@GetMapping("/findAll")
@@ -69,6 +76,17 @@ public class UsuarioRestController {
 		Usuario usuario = usuarioMapper.usuarioDTOToUsuario(usuarioDTO);
 		// guardo el customer
 		usuario = usuarioService.save(usuario);
+		
+		//si el usuario es ciudadano cro un cacrro de donaciones automaticamente
+		if(usuario.getTipousuario().getIdtipousuario()==2) {
+			Carrodonaciones carroDonacion = new Carrodonaciones();
+			//coloco el nuevo carro como disponible
+			Estadocarrodonacion estadoCarroDonacion = estadoCarroDeDonacionService.findById(1).get();
+			carroDonacion.setEstadocarrodonacion(estadoCarroDonacion);
+			carroDonacion.setUsuario(usuario);
+			carroDonacionService.save(carroDonacion);
+		}
+		
 		// convierto lo guardo a dto para retornarlo
 		usuarioDTO = usuarioMapper.usuarioToUsuarioDTO(usuario);
 

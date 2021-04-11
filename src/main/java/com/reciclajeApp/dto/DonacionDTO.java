@@ -12,18 +12,23 @@ import javax.validation.constraints.NotNull;
 */
 public class DonacionDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    @NotNull
+    
     private Integer iddonacion;
     private Integer idtiporesiduo_Tiporesiduo;
+    @NotNull
+    private String emailPropietario;
+    private String tipo;
 	
     public DonacionDTO() {
 		super();
 	}
 
-	public DonacionDTO(@NotNull Integer iddonacion, Integer idtiporesiduo_Tiporesiduo) {
+	public DonacionDTO(Integer iddonacion, Integer idtiporesiduo_Tiporesiduo,@NotNull String emailPropietario,String tipo) {
 		super();
 		this.iddonacion = iddonacion;
 		this.idtiporesiduo_Tiporesiduo = idtiporesiduo_Tiporesiduo;
+		this.emailPropietario=emailPropietario;
+		this.tipo=tipo;
 	}
 
 	public Integer getIddonacion() {
@@ -45,7 +50,24 @@ public class DonacionDTO implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getEmailPropietario() {
+		return emailPropietario;
+	}
+
+	public void setEmailPropietario(String emailPropietario) {
+		this.emailPropietario = emailPropietario;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
     
+	
     
     
 }
