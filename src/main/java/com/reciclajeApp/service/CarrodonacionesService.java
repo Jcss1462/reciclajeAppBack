@@ -13,4 +13,6 @@ import com.reciclajeApp.domain.Carrodonaciones;
 public interface CarrodonacionesService extends GenericService<Carrodonaciones, Integer> {
 	
 	public List<Carrodonaciones> findAllByUserCarrosByEnable(String email) throws Exception;
+	
+	public List<Carrodonaciones> findAllByByEnable() throws Exception;
 }

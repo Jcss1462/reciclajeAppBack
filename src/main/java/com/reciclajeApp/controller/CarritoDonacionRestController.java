@@ -100,7 +100,7 @@ public class CarritoDonacionRestController {
 
 	}
 
-	// Get http
+	
 	@DeleteMapping("/deleteDonacion/{id}")
 	// guardo lo mandado por el url en el parametro email
 	// ? = puede retornar cualqier cosa
