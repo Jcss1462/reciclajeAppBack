@@ -84,11 +84,14 @@ public class RecoleccionDonacionController {
 	}
 
 	// Get http
-	@GetMapping("/misSolicitudes/{cartId}")
-	public ResponseEntity<?> misSolicitudes(@PathVariable("cartId") Integer cartId) throws Exception {
+	@GetMapping("/misSolicitudes/{email}")
+	public ResponseEntity<?> misSolicitudes(@PathVariable("email") String email) throws Exception {
+		
+		//obtengo el carro actual
+		Carrodonaciones carro=carroDonacionService.findAllByUserCarrosByEnable(email).get(0);
 
 		// obtengo la lista
-		List<Solicitudesrecoleccion> listSolicitudes = solicitudesrecoleccionService.findSolicitudesByCarID(cartId);
+		List<Solicitudesrecoleccion> listSolicitudes = solicitudesrecoleccionService.findSolicitudesByCarID(carro.getIdcarrodonacion());
 
 		// convirto al dto
 		List<SolicitudesrecoleccionDTO> listSolicitudesDto = solicitudesrecoleccionMapper
