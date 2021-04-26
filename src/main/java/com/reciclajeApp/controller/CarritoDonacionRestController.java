@@ -64,6 +64,7 @@ public class CarritoDonacionRestController {
 		// establesco toda nueva vebta como disponible
 		Estadocarrodonacion estadoCarroDonacion = estadoCarroDeDonacionService.findById(1).get();
 		carroDonacion.setEstadocarrodonacion(estadoCarroDonacion);
+		carroDonacion.setRecolector(null);
 
 		carroDonacion = carroDonacionService.save(carroDonacion);
 
