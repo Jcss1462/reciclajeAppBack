@@ -1,5 +1,4 @@
-package  com.reciclajeApp.service;
-
+package com.reciclajeApp.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,21 +17,21 @@ import com.reciclajeApp.repository.CarrodonacionesRepository;
 import com.reciclajeApp.repository.UsuarioRepository;
 
 /**
-* @author Zathura Code Generator Version 9.0 http://zathuracode.org/
-* www.zathuracode.org
-* 
-*/
+ * @author Zathura Code Generator Version 9.0 http://zathuracode.org/
+ *         www.zathuracode.org
+ * 
+ */
 
 @Scope("singleton")
 @Service
-public class CarrodonacionesServiceImpl implements CarrodonacionesService{
+public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 
 	@Autowired
 	private CarrodonacionesRepository carrodonacionesRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private Validator validator;
 
@@ -58,36 +57,48 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 
 	@Override
 	public Carrodonaciones save(Carrodonaciones entity) throws Exception {
-		
+
 		// valido
 		validate(entity);
-		
-		//verfico que no tenga carros activos
-		List<Carrodonaciones> carrosActivos=findAllByUserCarrosByEnable(entity.getUsuario().getEmail());
-		if(carrosActivos.size()!=0) {
-			throw new Exception("El usuario "+entity.getUsuario().getEmail()+" ya tiene un carro activo");
+
+		// verfico que no tenga carros activos
+		List<Carrodonaciones> carrosActivos = findAllByUserCarrosByEnable(entity.getUsuario().getEmail());
+		if (carrosActivos.size() != 0) {
+			throw new Exception("El usuario " + entity.getUsuario().getEmail() + " ya tiene un carro activo");
 		}
-		
+
 		return carrodonacionesRepository.save(entity);
-		
+
 	}
 
 	@Override
 	public Carrodonaciones update(Carrodonaciones entity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		// valido
+		validate(entity);
+		
+		//verifico que el recolector exista
+		if (usuarioRepository.existsById(entity.getRecolector().getEmail()) == false) {
+			throw new Exception("El reciclaor con email " + entity.getRecolector().getEmail() + " no existe");
+		}
+		
+		//verifico que el recolector sea de tipo reciclador
+		if (usuarioRepository.findById(entity.getRecolector().getEmail()).get().getTipousuario().getIdtipousuario() != 1) {
+			throw new Exception("No se puede asignar este carro porque el usuario recolector no es reciclador");
+		}
+
+		return carrodonacionesRepository.save(entity);
 	}
 
 	@Override
 	public void delete(Carrodonaciones entity) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteById(Integer id) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -95,8 +106,7 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 		if (entity == null) {
 			throw new Exception("La venta es nula");
 		}
-		
-	
+
 		// validator
 		// retorna una lista de los constraint violados
 		Set<ConstraintViolation<Carrodonaciones>> constrintViolation = validator.validate(entity);
@@ -104,7 +114,7 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 		if (constrintViolation.isEmpty() == false) {
 			throw new ConstraintViolationException(constrintViolation);
 		}
-		
+
 	}
 
 	@Override
@@ -118,12 +128,11 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 		if (email == null) {
 			throw new Exception("email vacio");
 		}
-		
-		if (usuarioRepository.existsById(email)==false) {
-			throw new Exception("El usuario con email "+email+" no existe");
+
+		if (usuarioRepository.existsById(email) == false) {
+			throw new Exception("El usuario con email " + email + " no existe");
 		}
 
-		
 		return carrodonacionesRepository.findAllByUserCarrosByEnable(email);
 	}
 
@@ -132,7 +141,5 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService{
 		// TODO Auto-generated method stub
 		return carrodonacionesRepository.findAllByByEnable();
 	}
-                
-    
-			
+
 }

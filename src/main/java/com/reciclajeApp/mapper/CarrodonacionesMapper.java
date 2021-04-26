@@ -23,11 +23,13 @@ import java.util.List;
 public interface CarrodonacionesMapper {
     @Mapping(source = "estadocarrodonacion.idestadodonacion", target = "idestadodonacion_Estadocarrodonacion")
     @Mapping(source = "usuario.email", target = "email_Usuario")
+    @Mapping(source = "recolector.email", target = "email_Recolector")
     public CarrodonacionesDTO carrodonacionesToCarrodonacionesDTO(
         Carrodonaciones carrodonaciones);
 
     @Mapping(source = "idestadodonacion_Estadocarrodonacion", target = "estadocarrodonacion.idestadodonacion")
     @Mapping(source = "email_Usuario", target = "usuario.email")
+    @Mapping(source = "email_Recolector", target = "recolector.email")
     public Carrodonaciones carrodonacionesDTOToCarrodonaciones(
         CarrodonacionesDTO carrodonacionesDTO);
 

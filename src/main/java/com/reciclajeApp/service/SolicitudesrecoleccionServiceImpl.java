@@ -125,4 +125,10 @@ public class SolicitudesrecoleccionServiceImpl implements Solicitudesrecoleccion
 		return solicitudesrecoleccionRepository.findMultiplesSolicitudes(email, idCarroDonacion);
 	}
 
+	@Override
+	public List<Solicitudesrecoleccion> findSolicitudesByCarID(Integer idCarroDonacion) {
+		// TODO Auto-generated method stub
+		return solicitudesrecoleccionRepository.findSolicitudesByCarID(idCarroDonacion);
+	}
+
 }

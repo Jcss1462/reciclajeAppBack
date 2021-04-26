@@ -41,6 +41,10 @@ public class Carrodonaciones implements java.io.Serializable {
 	@JoinColumn(name = "email_propietario")
 	@NotNull
 	private Usuario usuario;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "email_recolector")
+	private Usuario recolector;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "carrodonaciones")
 	private List<CarrodonacionHasDonacion> carrodonacionHasDonacions = new ArrayList<>();
@@ -54,12 +58,13 @@ public class Carrodonaciones implements java.io.Serializable {
 
 
 	public Carrodonaciones(Integer idcarrodonacion, @NotNull Estadocarrodonacion estadocarrodonacion,
-			@NotNull Usuario usuario, List<CarrodonacionHasDonacion> carrodonacionHasDonacions) {
+			@NotNull Usuario usuario,Usuario recolector ,List<CarrodonacionHasDonacion> carrodonacionHasDonacions) {
 		super();
 		this.idcarrodonacion = idcarrodonacion;
 		this.estadocarrodonacion = estadocarrodonacion;
 		this.usuario = usuario;
 		this.carrodonacionHasDonacions = carrodonacionHasDonacions;
+		this.recolector=recolector;
 	}
 
 
@@ -96,6 +101,18 @@ public class Carrodonaciones implements java.io.Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+
+
+	public Usuario getRecolector() {
+		return recolector;
+	}
+
+
+
+	public void setRecolector(Usuario recolector) {
+		this.recolector = recolector;
 	}
 
 

@@ -15,4 +15,6 @@ import java.util.*;
 public interface SolicitudesrecoleccionService extends GenericService<Solicitudesrecoleccion, Integer> {
 	
 	public List<Solicitudesrecoleccion> findMultiplesSolicitudes(String email, Integer idCarroDonacion);
+	
+	public List<Solicitudesrecoleccion> findSolicitudesByCarID(Integer idCarroDonacion);
 }

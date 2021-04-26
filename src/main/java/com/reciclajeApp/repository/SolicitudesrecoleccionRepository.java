@@ -18,9 +18,14 @@ public interface SolicitudesrecoleccionRepository extends JpaRepository<Solicitu
 	// Obtengo las solicitudes duplicadas
 	@Query("SELECT sr FROM Solicitudesrecoleccion sr WHERE sr.emailReciclador.email=:email AND sr.carrodonaciones.idcarrodonacion=:idCarroDonacion")
 	public List<Solicitudesrecoleccion> findMultiplesSolicitudes(String email, Integer idCarroDonacion);
-	
+
 	// modo manual
-	//Obtengo ltodas las solicitudes del reciclador
+	// Obtengo ltodas las solicitudes del reciclador
 	@Query("SELECT sr FROM Solicitudesrecoleccion sr WHERE sr.emailReciclador.email=:email")
 	public List<Solicitudesrecoleccion> findSolicitudesByReciclador(String email);
+
+	// modo manual
+	// Obtengo ltodas las solicitudes del reciclador
+	@Query("SELECT sr FROM Solicitudesrecoleccion sr WHERE sr.carrodonaciones.idcarrodonacion=:idCarroDonacion")
+	public List<Solicitudesrecoleccion> findSolicitudesByCarID(Integer idCarroDonacion);
 }

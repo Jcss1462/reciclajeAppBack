@@ -13,17 +13,19 @@ public class CarrodonacionesDTO implements Serializable {
     private Integer idcarrodonacion;
     private Integer idestadodonacion_Estadocarrodonacion;
     private String email_Usuario;
+    private String email_Recolector;
 	
     public CarrodonacionesDTO() {
 		super();
 	}
 
 	public CarrodonacionesDTO(Integer idcarrodonacion, Integer idestadodonacion_Estadocarrodonacion,
-			String email_Usuario) {
+			String email_Usuario, String email_Recolector) {
 		super();
 		this.idcarrodonacion = idcarrodonacion;
 		this.idestadodonacion_Estadocarrodonacion = idestadodonacion_Estadocarrodonacion;
 		this.email_Usuario = email_Usuario;
+		this.email_Recolector = email_Recolector;
 	}
 
 	public Integer getIdcarrodonacion() {
@@ -48,6 +50,15 @@ public class CarrodonacionesDTO implements Serializable {
 
 	public void setEmail_Usuario(String email_Usuario) {
 		this.email_Usuario = email_Usuario;
+	}
+	
+	
+	public String getEmail_Recolector() {
+		return email_Recolector;
+	}
+
+	public void setEmail_Recolector(String email_Recolector) {
+		this.email_Recolector = email_Recolector;
 	}
 
 	public static long getSerialversionuid() {
