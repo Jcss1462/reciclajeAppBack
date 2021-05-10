@@ -23,4 +23,14 @@ public interface CarrodonacionesRepository extends JpaRepository<Carrodonaciones
 	// seleccionos todos los carros de donacion disponibles
 	@Query("SELECT cd FROM Carrodonaciones cd WHERE cd.estadocarrodonacion.idestadodonacion=1")
 	public List<Carrodonaciones> findAllByByEnable();
+
+	// modo manual
+	// seleccionos todos los carros de donacion disponibles no solicitados por el reciclador
+	@Query("SELECT cd FROM Carrodonaciones cd WHERE cd.estadocarrodonacion.idestadodonacion=1 AND cd.idcarrodonacion NOT IN( SELECT sr.carrodonaciones FROM Solicitudesrecoleccion sr WHERE  sr.emailReciclador.email=:email)")
+	public List<Carrodonaciones> findAllByByEnableNoAplicados(String email);
+
+	// modo manual
+	// seleccionos todos los carros de donacion asignados al reciclador
+	@Query("SELECT cd FROM Carrodonaciones cd WHERE cd.recolector.email=:email AND cd.estadocarrodonacion.idestadodonacion=3")
+	public List<Carrodonaciones> findAllMyCarsAsign(String email);
 }

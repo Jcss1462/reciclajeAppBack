@@ -120,15 +120,28 @@ public class SolicitudesrecoleccionServiceImpl implements Solicitudesrecoleccion
 	}
 
 	@Override
-	public List<Solicitudesrecoleccion> findMultiplesSolicitudes(String email, Integer idCarroDonacion) {
+	public List<Solicitudesrecoleccion> findMultiplesSolicitudes(String email, Integer idCarroDonacion)throws Exception {
 		// TODO Auto-generated method stub
 		return solicitudesrecoleccionRepository.findMultiplesSolicitudes(email, idCarroDonacion);
 	}
 
 	@Override
-	public List<Solicitudesrecoleccion> findSolicitudesByCarID(Integer idCarroDonacion) {
+	public List<Solicitudesrecoleccion> findSolicitudesByCarID(Integer idCarroDonacion) throws Exception{
 		// TODO Auto-generated method stub
 		return solicitudesrecoleccionRepository.findSolicitudesByCarID(idCarroDonacion);
+	}
+
+	@Override
+	public List<Solicitudesrecoleccion> findMyAplicatiosByReciclador(String email)throws Exception {
+		if (email == null) {
+			throw new Exception("email vacio");
+		}
+
+		if (usuarioRepository.existsById(email) == false) {
+			throw new Exception("El usuario con email " + email + " no existe");
+		}
+
+		return solicitudesrecoleccionRepository.findSolicitudesByRecicladorCarNoAsign(email);
 	}
 
 }

@@ -75,14 +75,15 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 	public Carrodonaciones update(Carrodonaciones entity) throws Exception {
 		// valido
 		validate(entity);
-		
-		//verifico que el recolector exista
+
+		// verifico que el recolector exista
 		if (usuarioRepository.existsById(entity.getRecolector().getEmail()) == false) {
 			throw new Exception("El reciclaor con email " + entity.getRecolector().getEmail() + " no existe");
 		}
-		
-		//verifico que el recolector sea de tipo reciclador
-		if (usuarioRepository.findById(entity.getRecolector().getEmail()).get().getTipousuario().getIdtipousuario() != 1) {
+
+		// verifico que el recolector sea de tipo reciclador
+		if (usuarioRepository.findById(entity.getRecolector().getEmail()).get().getTipousuario()
+				.getIdtipousuario() != 1) {
 			throw new Exception("No se puede asignar este carro porque el usuario recolector no es reciclador");
 		}
 
@@ -140,6 +141,32 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 	public List<Carrodonaciones> findAllByByEnable() throws Exception {
 		// TODO Auto-generated method stub
 		return carrodonacionesRepository.findAllByByEnable();
+	}
+
+	@Override
+	public List<Carrodonaciones> findAllByByEnableNoAplicados(String email) throws Exception {
+		if (email == null) {
+			throw new Exception("email vacio");
+		}
+
+		if (usuarioRepository.existsById(email) == false) {
+			throw new Exception("El usuario con email " + email + " no existe");
+		}
+
+		return carrodonacionesRepository.findAllByByEnableNoAplicados(email);
+	}
+
+	@Override
+	public List<Carrodonaciones> findAllMyCarsAsign(String email) throws Exception {
+		if (email == null) {
+			throw new Exception("email vacio");
+		}
+
+		if (usuarioRepository.existsById(email) == false) {
+			throw new Exception("El usuario con email " + email + " no existe");
+		}
+
+		return carrodonacionesRepository.findAllMyCarsAsign(email);
 	}
 
 }

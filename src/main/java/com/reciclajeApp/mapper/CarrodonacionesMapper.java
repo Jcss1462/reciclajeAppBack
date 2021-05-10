@@ -24,6 +24,7 @@ public interface CarrodonacionesMapper {
     @Mapping(source = "estadocarrodonacion.idestadodonacion", target = "idestadodonacion_Estadocarrodonacion")
     @Mapping(source = "usuario.email", target = "email_Usuario")
     @Mapping(source = "recolector.email", target = "email_Recolector")
+    @Mapping(source = "usuario.direccion", target = "direccionRecoleccion")
     public CarrodonacionesDTO carrodonacionesToCarrodonacionesDTO(
         Carrodonaciones carrodonaciones);
 

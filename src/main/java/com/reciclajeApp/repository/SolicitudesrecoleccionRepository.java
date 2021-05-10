@@ -25,7 +25,12 @@ public interface SolicitudesrecoleccionRepository extends JpaRepository<Solicitu
 	public List<Solicitudesrecoleccion> findSolicitudesByReciclador(String email);
 
 	// modo manual
-	// Obtengo ltodas las solicitudes del reciclador
+	// Obtengo ltodas las solicitudes del carro
 	@Query("SELECT sr FROM Solicitudesrecoleccion sr WHERE sr.carrodonaciones.idcarrodonacion=:idCarroDonacion")
 	public List<Solicitudesrecoleccion> findSolicitudesByCarID(Integer idCarroDonacion);
+
+	// modo manual
+	// Obtengo ltodas las solicitudes del reciclador a carros no asignados
+	@Query("SELECT sr FROM Solicitudesrecoleccion sr WHERE sr.emailReciclador.email=:email AND sr.carrodonaciones.estadocarrodonacion.idestadodonacion=1")
+	public List<Solicitudesrecoleccion> findSolicitudesByRecicladorCarNoAsign(String email);
 }

@@ -1,5 +1,6 @@
 package com.reciclajeApp.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -86,12 +87,13 @@ public class RecoleccionDonacionController {
 	// Get http
 	@GetMapping("/misSolicitudes/{email}")
 	public ResponseEntity<?> misSolicitudes(@PathVariable("email") String email) throws Exception {
-		
-		//obtengo el carro actual
-		Carrodonaciones carro=carroDonacionService.findAllByUserCarrosByEnable(email).get(0);
+
+		// obtengo el carro actual
+		Carrodonaciones carro = carroDonacionService.findAllByUserCarrosByEnable(email).get(0);
 
 		// obtengo la lista
-		List<Solicitudesrecoleccion> listSolicitudes = solicitudesrecoleccionService.findSolicitudesByCarID(carro.getIdcarrodonacion());
+		List<Solicitudesrecoleccion> listSolicitudes = solicitudesrecoleccionService
+				.findSolicitudesByCarID(carro.getIdcarrodonacion());
 
 		// convirto al dto
 		List<SolicitudesrecoleccionDTO> listSolicitudesDto = solicitudesrecoleccionMapper
@@ -106,26 +108,77 @@ public class RecoleccionDonacionController {
 	// @valid valida la entrada
 	public ResponseEntity<?> aceptarSolicitud(@Valid @RequestBody AceptarSolicitud aceptacion) throws Exception {
 
-		
-		//obtengo el email del usuario
+		// obtengo el email del usuario
 		Usuario reciclador = usuarioService.findById(aceptacion.getEmail()).get();
-		
-		//obtengo el carro de donacion que acepto la solicitud
-		Carrodonaciones carro= carroDonacionService.findById(aceptacion.getCarroDonacionId()).get();
-		
-		//obtengo el tipo de estado de Asignado
-		Estadocarrodonacion estado=estadoCarroDeDonacionService.findById(3).get();
-		
-		//actualizo el usuario reciclador
+
+		// obtengo el carro de donacion que acepto la solicitud
+		Carrodonaciones carro = carroDonacionService.findById(aceptacion.getCarroDonacionId()).get();
+
+		// obtengo el tipo de estado de Asignado
+		Estadocarrodonacion estado = estadoCarroDeDonacionService.findById(3).get();
+
+		// actualizo el usuario reciclador
 		carro.setRecolector(reciclador);
 		carro.setEstadocarrodonacion(estado);
-		
-		//conviero a dto
-		carro=carroDonacionService.update(carro);
-		
-		CarrodonacionesDTO carroDto=carroDonacionMapper.carrodonacionesToCarrodonacionesDTO(carro);
+
+		// conviero a dto
+		carro = carroDonacionService.update(carro);
+
+		CarrodonacionesDTO carroDto = carroDonacionMapper.carrodonacionesToCarrodonacionesDTO(carro);
 
 		return ResponseEntity.ok().body(carroDto);
+
+	}
+
+	// Get http
+	@GetMapping("/findAllByByEnableNoAplicados/{email}")
+	public ResponseEntity<?> allDonacionesByEnableNoAplicados(@PathVariable("email") String email) throws Exception {
+
+		// obtengo la lista
+		List<Carrodonaciones> listCarroDonaciones = carroDonacionService.findAllByByEnableNoAplicados(email);
+
+		// convirto al dto
+		List<CarrodonacionesDTO> listCarroDonacionesDto = carroDonacionMapper
+				.listCarrodonacionesToListCarrodonacionesDTO(listCarroDonaciones);
+
+		return ResponseEntity.ok().body(listCarroDonacionesDto);
+
+	}
+
+	// Get http
+	@GetMapping("/findAllMyCarsAsign/{email}")
+	public ResponseEntity<?> findAllMyCarsAsign(@PathVariable("email") String email) throws Exception {
+
+		// obtengo la lista
+		List<Carrodonaciones> listCarroDonaciones = carroDonacionService.findAllMyCarsAsign(email);
+
+		// convirto al dto
+		List<CarrodonacionesDTO> listCarroDonacionesDto = carroDonacionMapper
+				.listCarrodonacionesToListCarrodonacionesDTO(listCarroDonaciones);
+
+		return ResponseEntity.ok().body(listCarroDonacionesDto);
+
+	}
+
+	// Get http
+	@GetMapping("/findMyAplicationsReciclador/{email}")
+	public ResponseEntity<?> findMyAplicationsReciclador(@PathVariable("email") String email) throws Exception {
+
+		// obtengo la lista de solicitudes
+		List<Solicitudesrecoleccion> listSolicitudes = solicitudesrecoleccionService
+				.findMyAplicatiosByReciclador(email);
+
+		// obtengo los carros de donaciones de la lista de solicitudes
+		List<Carrodonaciones> listCarroDonaciones = new ArrayList<Carrodonaciones>();
+		listSolicitudes.forEach((sr) -> {
+			listCarroDonaciones.add(sr.getCarrodonaciones());
+		});
+
+		// convirto al dto
+		List<CarrodonacionesDTO> listCarroDonacionesDto = carroDonacionMapper
+				.listCarrodonacionesToListCarrodonacionesDTO(listCarroDonaciones);
+
+		return ResponseEntity.ok().body(listCarroDonacionesDto);
 
 	}
 
