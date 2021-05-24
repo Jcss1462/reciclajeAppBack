@@ -101,7 +101,6 @@ public class CarritoDonacionRestController {
 
 	}
 
-	
 	@DeleteMapping("/deleteDonacion/{id}")
 	// guardo lo mandado por el url en el parametro email
 	// ? = puede retornar cualqier cosa
@@ -119,20 +118,24 @@ public class CarritoDonacionRestController {
 	// guardo lo mandado por el url en el parametro email
 	// ? = puede retornar cualqier cosa
 	public ResponseEntity<?> misDonacionesActuales(@PathVariable("email") String email) throws Exception {
-		
-		//obtengo el carro actual
+
+		// verifico que tenga al menos un carro habilitado
+		if (carroDonacionService.findAllByUserCarrosByEnable(email).size() == 0) {
+			throw new Exception("El usuario con email " + email + " no tiene carros activos");
+		}
+
+		// obtengo el carro actual
 		Carrodonaciones carroActual = carroDonacionService.findAllByUserCarrosByEnable(email).get(0);
-		
-		//obtengo las donaciones del carro actual
+
+		// obtengo las donaciones del carro actual
 		List<DonacionDTO> response = new ArrayList<DonacionDTO>();
-		
-		List<CarrodonacionHasDonacion> ListaDonaciones=carroActual.getCarrodonacionHasDonacions();
-		
+
+		List<CarrodonacionHasDonacion> ListaDonaciones = carroActual.getCarrodonacionHasDonacions();
+
 		for (CarrodonacionHasDonacion val : ListaDonaciones) {
 			response.add(donacionMapper.donacionToDonacionDTO(val.getDonacion()));
 		}
-		
-		
+
 		return ResponseEntity.ok().body(response);
 
 	}
