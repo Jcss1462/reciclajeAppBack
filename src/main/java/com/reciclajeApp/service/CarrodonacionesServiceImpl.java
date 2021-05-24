@@ -133,6 +133,11 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 		if (usuarioRepository.existsById(email) == false) {
 			throw new Exception("El usuario con email " + email + " no existe");
 		}
+		
+		//verifico que tenga al menos un carro habilitado
+		if(carrodonacionesRepository.findAllByUserCarrosByEnable(email).size()==0) {
+			throw new Exception("El usuario con email " + email + " no tiene carros activos");
+		}
 
 		return carrodonacionesRepository.findAllByUserCarrosByEnable(email);
 	}
