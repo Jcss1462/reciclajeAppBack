@@ -20,6 +20,8 @@ public class VisitacivilDTO implements Serializable {
     private Integer idestadovisita_Estadovisita;
     private String emailPropietario;
     private String emailRecolector;
+    private String direccion;
+    private String estado;
     
 	public VisitacivilDTO() {
 		super();
@@ -68,6 +70,24 @@ public class VisitacivilDTO implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
+	
     
     
     

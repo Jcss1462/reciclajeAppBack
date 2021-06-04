@@ -24,6 +24,8 @@ public interface VisitacivilMapper {
     @Mapping(source = "estadovisita.idestadovisita", target = "idestadovisita_Estadovisita")
     @Mapping(source = "emailPropietario.email", target = "emailPropietario")
     @Mapping(source = "emailRecolector.email", target = "emailRecolector")
+    @Mapping(source = "emailPropietario.direccion", target = "direccion")
+    @Mapping(source = "estadovisita.estado", target = "estado")
     public VisitacivilDTO visitacivilToVisitacivilDTO(Visitacivil visitacivil);
 
     @Mapping(source = "idestadovisita_Estadovisita", target = "estadovisita.idestadovisita")

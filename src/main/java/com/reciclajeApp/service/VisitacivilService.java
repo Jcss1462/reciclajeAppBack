@@ -1,5 +1,6 @@
 package com.reciclajeApp.service;
 
+import com.reciclajeApp.domain.Agendar;
 import com.reciclajeApp.domain.Visitacivil;
 
 import java.math.*;
@@ -16,4 +17,9 @@ public interface VisitacivilService extends GenericService<Visitacivil, Integer>
 
 	public List<Visitacivil> findAllByByEnable();
 	
+	public List<Visitacivil> misVisitasAgendadasReciclador(String email);
+	
+	public List<Visitacivil> misVisitasActivasCivil(String email);
+	
+	public Visitacivil cancelarVisitaReciclador(Agendar agenda) throws Exception;
 }

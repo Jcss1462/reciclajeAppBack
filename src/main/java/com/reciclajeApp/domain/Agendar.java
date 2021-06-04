@@ -3,7 +3,7 @@ package com.reciclajeApp.domain;
 public class Agendar {
 	
 	String emailReciclador;
-	Integer idVenta;
+	Integer idVisita;
 	
 	public Agendar() {
 		super();
@@ -12,7 +12,7 @@ public class Agendar {
 	public Agendar(String emailReciclador, Integer idVenta) {
 		super();
 		this.emailReciclador = emailReciclador;
-		this.idVenta = idVenta;
+		this.idVisita = idVenta;
 	}
 
 	public String getEmailReciclador() {
@@ -23,13 +23,15 @@ public class Agendar {
 		this.emailReciclador = emailReciclador;
 	}
 
-	public Integer getIdVenta() {
-		return idVenta;
+	public Integer getIdVisita() {
+		return idVisita;
 	}
 
-	public void setIdVenta(Integer idVenta) {
-		this.idVenta = idVenta;
+	public void setIdVisita(Integer idVisita) {
+		this.idVisita = idVisita;
 	}
+
+	
 	
 	
 

@@ -14,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.reciclajeApp.domain.Agendar;
+import com.reciclajeApp.domain.Estadovisita;
 import com.reciclajeApp.domain.Usuario;
 import com.reciclajeApp.domain.Visitacivil;
+import com.reciclajeApp.repository.EstadovisitaRepository;
 import com.reciclajeApp.repository.UsuarioRepository;
 import com.reciclajeApp.repository.VisitacivilRepository;
 
@@ -33,6 +36,8 @@ public class VisitacivilServiceImpl implements VisitacivilService {
 	private Validator validator;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private EstadovisitaRepository estadoVisitaRepository;
 
 	private final static Logger log = LoggerFactory.getLogger(VisitacivilServiceImpl.class);
 
@@ -107,13 +112,25 @@ public class VisitacivilServiceImpl implements VisitacivilService {
 
 	@Override
 	public void delete(Visitacivil entity) throws Exception {
-		// TODO Auto-generated method stub
+		
+		validate(entity);
+
+		visitacivilRepository.delete(entity);
 
 	}
 
 	@Override
 	public void deleteById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
+		
+		if (id == null) {
+			throw new Exception("Id vacio");
+		}
+		if (!visitacivilRepository.existsById(id)) {
+
+			throw new Exception("La visita con id: " + id + " no existe");
+		}
+
+		visitacivilRepository.deleteById(id);
 
 	}
 
@@ -142,6 +159,53 @@ public class VisitacivilServiceImpl implements VisitacivilService {
 	public List<Visitacivil> findAllByByEnable() {
 		// TODO Auto-generated method stub
 		return visitacivilRepository.findAllByByEnable();
+	}
+
+	@Override
+	public List<Visitacivil> misVisitasAgendadasReciclador(String email) {
+		// TODO Auto-generated method stub
+		return visitacivilRepository.misVisitasAgendadasReciclador(email);
+	}
+
+	@Override
+	public List<Visitacivil> misVisitasActivasCivil(String email) {
+		// TODO Auto-generated method stub
+		return visitacivilRepository.misVisitasActivasCivil(email);
+	}
+
+	@Override
+	public Visitacivil cancelarVisitaReciclador(Agendar agenda) throws Exception{
+		
+		//verificao que la visita exista
+		if(!visitacivilRepository.existsById(agenda.getIdVisita())) {
+			throw new Exception("La visita con id:" + agenda.getIdVisita() + " no existe");
+		}
+		//obtego la visita
+		Visitacivil visita=visitacivilRepository.findById(agenda.getIdVisita()).get();
+		
+		
+		//verifico que la visita tenga un recolector asigndo
+		if(visita.getEmailRecolector()==null) {
+			throw new Exception("La visita con id: " + visita.getIdvisita() + " no tiene un reciclador asignado");
+		}
+		
+		//verifico que el reciclador que esta eliminando la visita sea el asignado actualmente
+		if(agenda.getEmailReciclador().equals(visita.getEmailRecolector().getEmail())==false) {
+			throw new Exception("El usuario: " + agenda.getEmailReciclador() + " no esta asigado a la visita con id: "+agenda.getIdVisita());
+		}
+		
+		//si todo sale bien dejo el usuario recolector vacio y cambio la visita a disponible
+		//obtengo el estado siponible
+		Estadovisita estado=estadoVisitaRepository.findById(1).get();
+		
+		//actualizo la informacion
+		visita.setEmailRecolector(null);
+		visita.setEstadovisita(estado);
+		
+		//guardo
+		visita=save(visita);
+		
+		return visita;
 	}
 
 }

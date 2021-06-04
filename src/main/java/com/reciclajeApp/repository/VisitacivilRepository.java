@@ -21,4 +21,14 @@ public interface VisitacivilRepository extends JpaRepository<Visitacivil, Intege
 	@Query("SELECT vc FROM Visitacivil vc WHERE vc.estadovisita.idestadovisita=1")
 	public List<Visitacivil> findAllByByEnable();
 
+	// modo manual
+	// seleccionos todAS las visitas agendadas del reciclador
+	@Query("SELECT vc FROM Visitacivil vc WHERE vc.estadovisita.idestadovisita=2 AND vc.emailRecolector.email=:email")
+	public List<Visitacivil> misVisitasAgendadasReciclador(String email);
+
+	// modo manual
+	// seleccionos todas las visitas pendientes o agendadas del civil
+	@Query("SELECT vc FROM Visitacivil vc WHERE vc.estadovisita.idestadovisita!=3 AND vc.emailPropietario.email=:email")
+	public List<Visitacivil> misVisitasActivasCivil(String email);
+
 }
