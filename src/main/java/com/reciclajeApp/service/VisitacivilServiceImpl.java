@@ -112,7 +112,7 @@ public class VisitacivilServiceImpl implements VisitacivilService {
 
 	@Override
 	public void delete(Visitacivil entity) throws Exception {
-		
+
 		validate(entity);
 
 		visitacivilRepository.delete(entity);
@@ -121,7 +121,7 @@ public class VisitacivilServiceImpl implements VisitacivilService {
 
 	@Override
 	public void deleteById(Integer id) throws Exception {
-		
+
 		if (id == null) {
 			throw new Exception("Id vacio");
 		}
@@ -174,37 +174,71 @@ public class VisitacivilServiceImpl implements VisitacivilService {
 	}
 
 	@Override
-	public Visitacivil cancelarVisitaReciclador(Agendar agenda) throws Exception{
-		
-		//verificao que la visita exista
-		if(!visitacivilRepository.existsById(agenda.getIdVisita())) {
+	public Visitacivil cancelarVisitaReciclador(Agendar agenda) throws Exception {
+
+		// verificao que la visita exista
+		if (!visitacivilRepository.existsById(agenda.getIdVisita())) {
 			throw new Exception("La visita con id:" + agenda.getIdVisita() + " no existe");
 		}
-		//obtego la visita
-		Visitacivil visita=visitacivilRepository.findById(agenda.getIdVisita()).get();
-		
-		
-		//verifico que la visita tenga un recolector asigndo
-		if(visita.getEmailRecolector()==null) {
+		// obtego la visita
+		Visitacivil visita = visitacivilRepository.findById(agenda.getIdVisita()).get();
+
+		// verifico que la visita tenga un recolector asigndo
+		if (visita.getEmailRecolector() == null) {
 			throw new Exception("La visita con id: " + visita.getIdvisita() + " no tiene un reciclador asignado");
 		}
-		
-		//verifico que el reciclador que esta eliminando la visita sea el asignado actualmente
-		if(agenda.getEmailReciclador().equals(visita.getEmailRecolector().getEmail())==false) {
-			throw new Exception("El usuario: " + agenda.getEmailReciclador() + " no esta asigado a la visita con id: "+agenda.getIdVisita());
+
+		// verifico que el reciclador que esta eliminando la visita sea el asignado
+		// actualmente
+		if (agenda.getEmailReciclador().equals(visita.getEmailRecolector().getEmail()) == false) {
+			throw new Exception("El usuario: " + agenda.getEmailReciclador() + " no esta asigado a la visita con id: "
+					+ agenda.getIdVisita());
 		}
-		
-		//si todo sale bien dejo el usuario recolector vacio y cambio la visita a disponible
-		//obtengo el estado siponible
-		Estadovisita estado=estadoVisitaRepository.findById(1).get();
-		
-		//actualizo la informacion
+
+		// si todo sale bien dejo el usuario recolector vacio y cambio la visita a
+		// disponible
+		// obtengo el estado disponible
+		Estadovisita estado = estadoVisitaRepository.findById(1).get();
+
+		// actualizo la informacion
 		visita.setEmailRecolector(null);
 		visita.setEstadovisita(estado);
+
+		// guardo
+		visita = save(visita);
+
+		return visita;
+	}
+
+	@Override
+	public Visitacivil confirmarRecoleccion(Integer idVisita) throws Exception {
+
+		// valido que la visita exista
+		if (!visitacivilRepository.existsById(idVisita)) {
+			throw new Exception("La visita con id: " + idVisita + " no existe");
+		}
+
+		// obtengo la visita almacenada en la base de datos
+		Visitacivil visita = visitacivilRepository.findById(idVisita).get();
+
+		// valido que la visita actualmente este agendada y con un recolector asignado
+		if (visita.getEstadovisita().getIdestadovisita() != 2) {
+			throw new Exception("La visita con id: " + visita.getIdvisita() + " ya no se encuentra agendada");
+		}
+
+		if (visita.getEmailRecolector() == null) {
+			throw new Exception("La visita con id: " + visita.getIdvisita() + " no tiene un recolector asignado");
+		}
+
+		// si todo sale bien, cambio el estado de la visita a recolectado
+		// obtengo el estado recolectado
+		Estadovisita estado = estadoVisitaRepository.findById(3).get();
 		
-		//guardo
-		visita=save(visita);
+		visita.setEstadovisita(estado);
 		
+		visita=visitacivilRepository.save(visita);
+
+		// TODO Auto-generated method stub
 		return visita;
 	}
 

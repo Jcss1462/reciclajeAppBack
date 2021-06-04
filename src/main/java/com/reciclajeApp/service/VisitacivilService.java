@@ -22,4 +22,7 @@ public interface VisitacivilService extends GenericService<Visitacivil, Integer>
 	public List<Visitacivil> misVisitasActivasCivil(String email);
 	
 	public Visitacivil cancelarVisitaReciclador(Agendar agenda) throws Exception;
+	
+	public Visitacivil confirmarRecoleccion(Integer idVisita) throws Exception;
+	
 }
