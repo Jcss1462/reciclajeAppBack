@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reciclajeApp.domain.AceptarSolicitud;
 import com.reciclajeApp.domain.Carrodonaciones;
 import com.reciclajeApp.domain.Estadocarrodonacion;
+import com.reciclajeApp.domain.IdCarroDonacion;
 import com.reciclajeApp.domain.Solicitudesrecoleccion;
 import com.reciclajeApp.domain.Usuario;
 import com.reciclajeApp.dto.CarrodonacionesDTO;
@@ -179,6 +181,35 @@ public class RecoleccionDonacionController {
 				.listCarrodonacionesToListCarrodonacionesDTO(listCarroDonaciones);
 
 		return ResponseEntity.ok().body(listCarroDonacionesDto);
+
+	}
+
+	// Get http
+	@DeleteMapping("/eliminarSolicitud/{id}")
+	// guardo lo mandado por el url en el parametro email
+	// ? = puede retornar cualqier cosa
+	public ResponseEntity<?> eliminarSolicitud(@PathVariable("id") Integer id) throws Exception {
+
+		// borro
+		solicitudesrecoleccionService.deleteById(id);
+
+		return ResponseEntity.ok().build();
+		
+	}
+	
+	
+	@PutMapping("/removerDeLaRuta")
+	// envio los datos por el body de la peticion http
+	// @valid valida la entrada
+	public ResponseEntity<?> removerDeLaRuta(@Valid @RequestBody IdCarroDonacion idCarro) throws Exception {
+
+		//remuevo de la ruta
+		Carrodonaciones carro = carroDonacionService.removerDeLaRuta(idCarro.getCarroId());
+
+		//convierto a Dto
+		CarrodonacionesDTO carroDto = carroDonacionMapper.carrodonacionesToCarrodonacionesDTO(carro);
+
+		return ResponseEntity.ok().body(carroDto);
 
 	}
 

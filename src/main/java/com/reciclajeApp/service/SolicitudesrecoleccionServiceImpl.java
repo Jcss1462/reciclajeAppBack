@@ -86,13 +86,25 @@ public class SolicitudesrecoleccionServiceImpl implements Solicitudesrecoleccion
 
 	@Override
 	public void delete(Solicitudesrecoleccion entity) throws Exception {
-		// TODO Auto-generated method stub
+		
+		validate(entity);
+
+		solicitudesrecoleccionRepository.delete(entity);
 
 	}
 
 	@Override
 	public void deleteById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
+		
+		if (id == null) {
+			throw new Exception("Id vacio");
+		}
+		if (!solicitudesrecoleccionRepository.existsById(id)) {
+
+			throw new Exception("La visita con id: " + id + " no existe");
+		}
+
+		solicitudesrecoleccionRepository.deleteById(id);
 
 	}
 
