@@ -36,7 +36,12 @@ public interface CarrodonacionesRepository extends JpaRepository<Carrodonaciones
 	public List<Carrodonaciones> findAllMyCarsAsign(String email);
 
 	// modo manual
-	// seleccionos todos los carros activos de un usuario
+	// seleccionos todos los carros agendados
 	@Query("SELECT cd FROM Carrodonaciones cd WHERE cd.usuario.email=:email AND cd.estadocarrodonacion.idestadodonacion=3")
 	public List<Carrodonaciones> findAllByUserCarrosByAgend(String email);
+
+	// modo manual
+	// seleccionos todos los carros activos y agendados
+	@Query("SELECT cd FROM Carrodonaciones cd WHERE cd.usuario.email=:email AND (cd.estadocarrodonacion.idestadodonacion=3 OR cd.estadocarrodonacion.idestadodonacion=1)")
+	public List<Carrodonaciones> findAllByUserCarrosNoDonados(String email);
 }

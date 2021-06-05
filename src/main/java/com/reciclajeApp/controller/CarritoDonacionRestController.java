@@ -14,18 +14,25 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.reciclajeApp.domain.Agendar;
 import com.reciclajeApp.domain.CarrodonacionHasDonacion;
 import com.reciclajeApp.domain.Carrodonaciones;
 import com.reciclajeApp.domain.Donacion;
+import com.reciclajeApp.domain.EmailUsuario;
 import com.reciclajeApp.domain.Estadocarrodonacion;
+import com.reciclajeApp.domain.Estadovisita;
+import com.reciclajeApp.domain.Usuario;
 import com.reciclajeApp.domain.Venta;
+import com.reciclajeApp.domain.Visitacivil;
 import com.reciclajeApp.dto.CarrodonacionesDTO;
 import com.reciclajeApp.dto.DonacionDTO;
 import com.reciclajeApp.dto.VentaDTO;
+import com.reciclajeApp.dto.VisitacivilDTO;
 import com.reciclajeApp.mapper.CarrodonacionesMapper;
 import com.reciclajeApp.mapper.DonacionMapper;
 import com.reciclajeApp.service.CarrodonacionHasDonacionService;
@@ -137,6 +144,19 @@ public class CarritoDonacionRestController {
 		}
 
 		return ResponseEntity.ok().body(response);
+
+	}
+
+	@PutMapping("/inhabilitarCarrosDonaciones")
+	// envio los datos por el body de la peticion http
+	// @valid valida la entrada
+	public ResponseEntity<?> inhabilitarCarrosDonaciones(@Valid @RequestBody EmailUsuario emailUusario) throws Exception {
+
+		Carrodonaciones carroNuevo=carroDonacionService.inhabililitarCarrosDonacionYCreaciondeUnoNuevo(emailUusario.getEmailUsuario());
+		
+		CarrodonacionesDTO carroNuevoDto = carroDonacionMapper.carrodonacionesToCarrodonacionesDTO(carroNuevo);
+
+		return ResponseEntity.ok().body(carroNuevoDto);
 
 	}
 

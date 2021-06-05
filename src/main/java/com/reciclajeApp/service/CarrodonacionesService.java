@@ -21,4 +21,6 @@ public interface CarrodonacionesService extends GenericService<Carrodonaciones, 
 	public List<Carrodonaciones> findAllMyCarsAsign(String email) throws Exception;
 	
 	public Carrodonaciones removerDeLaRuta(Integer idCarroDonacion) throws Exception;
+	
+	public Carrodonaciones inhabililitarCarrosDonacionYCreaciondeUnoNuevo(String email) throws Exception;
 }

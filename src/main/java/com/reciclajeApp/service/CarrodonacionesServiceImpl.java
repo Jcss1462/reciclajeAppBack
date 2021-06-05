@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import com.reciclajeApp.domain.CarrodonacionHasDonacion;
 import com.reciclajeApp.domain.Carrodonaciones;
 import com.reciclajeApp.domain.Estadocarrodonacion;
+import com.reciclajeApp.domain.Usuario;
 import com.reciclajeApp.repository.CarrodonacionesRepository;
 import com.reciclajeApp.repository.EstadocarrodonacionRepository;
 import com.reciclajeApp.repository.UsuarioRepository;
@@ -33,7 +35,7 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private EstadocarrodonacionRepository estadocarrodonacionRepository;
 
@@ -71,7 +73,12 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 		if (carrosActivos.size() != 0) {
 			throw new Exception("El usuario " + entity.getUsuario().getEmail() + " ya tiene un carro activo");
 		}
-		
+
+		// valido que no tenga carros agendados
+		carrosActivos = carrodonacionesRepository.findAllByUserCarrosByAgend(entity.getUsuario().getEmail());
+		if (carrosActivos.size() != 0) {
+			throw new Exception("El usuario " + entity.getUsuario().getEmail() + "tiene un carro agendado");
+		}
 
 		return carrodonacionesRepository.save(entity);
 
@@ -139,8 +146,7 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 		if (usuarioRepository.existsById(email) == false) {
 			throw new Exception("El usuario con email " + email + " no existe");
 		}
-		
-		
+
 		return carrodonacionesRepository.findAllByUserCarrosByEnable(email);
 	}
 
@@ -178,35 +184,77 @@ public class CarrodonacionesServiceImpl implements CarrodonacionesService {
 
 	@Override
 	public Carrodonaciones removerDeLaRuta(Integer idCarroDonacion) throws Exception {
-		
-		//valido que el carro de doncion exista
-		if(!carrodonacionesRepository.existsById(idCarroDonacion)) {
+
+		// valido que el carro de doncion exista
+		if (!carrodonacionesRepository.existsById(idCarroDonacion)) {
 			throw new Exception("El carro de donacion con id: " + idCarroDonacion + " no existe");
 		}
-		
-		Carrodonaciones carro=carrodonacionesRepository.findById(idCarroDonacion).get();
-		
-		//valido que en este moemento el carro este asignado
-		if(carro.getEstadocarrodonacion().getIdestadodonacion()!=3) {
-			throw new Exception("El carro de donacion con id: " + idCarroDonacion + " no se puede remover de la ruta porque no esta asignado");
+
+		Carrodonaciones carro = carrodonacionesRepository.findById(idCarroDonacion).get();
+
+		// valido que en este moemento el carro este asignado
+		if (carro.getEstadocarrodonacion().getIdestadodonacion() != 3) {
+			throw new Exception("El carro de donacion con id: " + idCarroDonacion
+					+ " no se puede remover de la ruta porque no esta asignado");
 		}
-		
-		//valido que tenga un usuario recolector
-		if(carro.getRecolector()==null) {
-			throw new Exception("El carro de donacion con id: " + idCarroDonacion + " no se puede remover de la ruta porque no tirnr un recolector");
+
+		// valido que tenga un usuario recolector
+		if (carro.getRecolector() == null) {
+			throw new Exception("El carro de donacion con id: " + idCarroDonacion
+					+ " no se puede remover de la ruta porque no tirnr un recolector");
 		}
-		
-		//si todo sale bien
-		
-		//establesco el estado del carro a disponible y remuevo al recolector
-		Estadocarrodonacion estado= estadocarrodonacionRepository.findById(1).get();
-		
+
+		// si todo sale bien
+
+		// establesco el estado del carro a disponible y remuevo al recolector
+		Estadocarrodonacion estado = estadocarrodonacionRepository.findById(1).get();
+
 		carro.setEstadocarrodonacion(estado);
 		carro.setRecolector(null);
+
+		// actualizo
+		carro = carrodonacionesRepository.save(carro);
+
+		return carro;
+	}
+
+	@Override
+	public Carrodonaciones inhabililitarCarrosDonacionYCreaciondeUnoNuevo(String email) throws Exception {
+
+		if (email == null) {
+			throw new Exception("email vacio");
+		}
+
+		// valido que el usuario exisita
+		if (usuarioRepository.existsById(email) == false) {
+			throw new Exception("El usuario con email " + email + " no existe");
+		}
+
+		// verfico que no tenga carros activos
+		List<Carrodonaciones> carrosActivos = carrodonacionesRepository.findAllByUserCarrosNoDonados(email);
+
+		// obtengo el estado de donado
+		Estadocarrodonacion estado = estadocarrodonacionRepository.findById(2).get();
+
+		//seteo toda la lista
+		for (Carrodonaciones val : carrosActivos) {
+			val.setEstadocarrodonacion(estado);
+			carrodonacionesRepository.save(val);
+		}
 		
-		//actualizo
-		carro=carrodonacionesRepository.save(carro);
+		//obtengo el usuario
+		Usuario usuario=usuarioRepository.findById(email).get();
+		//obtengo el estado siponible
+		estado = estadocarrodonacionRepository.findById(1).get();
+		//creo un nuevo carro
+		Carrodonaciones carro = new Carrodonaciones();
+		carro.setUsuario(usuario);
+		carro.setEstadocarrodonacion(estado);
 		
+		
+		//guardo el carro
+		carro=save(carro);
+
 		return carro;
 	}
 
