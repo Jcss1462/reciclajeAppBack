@@ -111,7 +111,7 @@ public class UsuarioRestController {
 	@GetMapping("/pruebaConexion")
 	public ResponseEntity<?> pruebaConexion() throws Exception {
 
-		return ResponseEntity.ok().body("Conexion exitoza");
+		return ResponseEntity.ok().body("Conexion exitoza x2");
 
 	}
 
