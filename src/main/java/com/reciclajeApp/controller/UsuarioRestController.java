@@ -106,5 +106,13 @@ public class UsuarioRestController {
 		return ResponseEntity.ok().body(usuarioDTO);
 
 	}
+	
+	// prueba de conexion laptop
+	@GetMapping("/pruebaConexion")
+	public ResponseEntity<?> pruebaConexion() throws Exception {
+
+		return ResponseEntity.ok().body("Conexion exitoza");
+
+	}
 
 }
