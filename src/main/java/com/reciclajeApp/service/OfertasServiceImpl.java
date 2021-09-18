@@ -114,4 +114,17 @@ public class OfertasServiceImpl implements OfertasService {
 		return ofertaRepository.findOfertasDisponiblesByUser(email);
 	}
 
+	@Override
+	public List<Ofertas> findAllOfertasDisponibles() throws Exception {
+		// TODO Auto-generated method stub
+		return ofertaRepository.findAllOfertasDisponibles();
+	}
+
+	@Override
+	public List<Ofertas> findAllOfertasDisponiblesNoAplicadasPorReciclador(String email) throws Exception {
+		// TODO Auto-generated method stub
+		return ofertaRepository.findAllOfertasDisponiblesNoAplicadasBayReciclador(email);
+	}
+
+
 }

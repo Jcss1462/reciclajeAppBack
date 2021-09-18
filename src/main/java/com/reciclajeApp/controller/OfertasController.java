@@ -96,6 +96,31 @@ public class OfertasController {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//recicladores
+	@GetMapping("/allOfertasDiponibles")
+	public ResponseEntity<?> allOfertasDiponibles() throws Exception {
+		List<Ofertas> ofertas = ofertaService.findAllOfertasDisponibles();
+		List<OfertasDTO> ofertasDto = ofertasMapper.listOfertasToListOfertasDTO(ofertas);
+		return ResponseEntity.ok().body(ofertasDto);
+	}
+	
+	
+	@GetMapping("/allOfertasDiponiblesByReciclador/{email}")
+	public ResponseEntity<?> allOfertasDiponiblesByReciclador(@PathVariable("email") String email) throws Exception {
+		List<Ofertas> ofertas = ofertaService.findAllOfertasDisponiblesNoAplicadasPorReciclador(email);
+		List<OfertasDTO> ofertasDto = ofertasMapper.listOfertasToListOfertasDTO(ofertas);
+		return ResponseEntity.ok().body(ofertasDto);
+	}
+	
+	
+	@PostMapping("/aplicarOferta")
+	// envio los datos por el body de la peticion http
+	// @valid valida la entrada
+	public ResponseEntity<?> aplicarOferta(@Valid @RequestBody AplicantesofertasDTO alplicanteDto) throws Exception {
+		Aplicantesofertas aplicante = aplicantesOfertasMapper.aplicantesofertasDTOToAplicantesofertas(alplicanteDto);
+		aplicante = aplicantesOfertasService.save(aplicante);
+		alplicanteDto = aplicantesOfertasMapper.aplicantesofertasToAplicantesofertasDTO(aplicante);
+		return ResponseEntity.ok().body(alplicanteDto);
+	}
 	
 	
 

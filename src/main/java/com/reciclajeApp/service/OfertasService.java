@@ -15,4 +15,8 @@ public interface OfertasService extends GenericService<Ofertas, Integer> {
 	
 	public List<Ofertas> findOfertasDisponiblesByUser(String email) throws Exception;
 	
+	public List<Ofertas> findAllOfertasDisponibles() throws Exception;
+	
+	public List<Ofertas> findAllOfertasDisponiblesNoAplicadasPorReciclador(String email) throws Exception;
+	
 }

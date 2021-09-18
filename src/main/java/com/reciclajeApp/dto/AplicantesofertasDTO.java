@@ -13,7 +13,8 @@ import javax.validation.constraints.NotNull;
 
 public class AplicantesofertasDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    @NotNull
+    
+
     private Integer idaplicacion;
     
     @NotNull
@@ -26,7 +27,7 @@ public class AplicantesofertasDTO implements Serializable {
 		super();
 	}
 
-	public AplicantesofertasDTO(@NotNull Integer idaplicacion, @NotNull Integer idoferta_Ofertas,
+	public AplicantesofertasDTO(Integer idaplicacion, @NotNull Integer idoferta_Ofertas,
 			@NotNull String email_Usuario) {
 		super();
 		this.idaplicacion = idaplicacion;
