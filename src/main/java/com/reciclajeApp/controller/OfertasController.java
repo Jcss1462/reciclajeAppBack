@@ -1,8 +1,5 @@
 package com.reciclajeApp.controller;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,20 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.reciclajeApp.domain.Aplicantesofertas;
 import com.reciclajeApp.domain.Estadooferta;
-import com.reciclajeApp.domain.Estadoventa;
 import com.reciclajeApp.domain.Ofertas;
-import com.reciclajeApp.domain.Venta;
 import com.reciclajeApp.dto.AplicantesofertasDTO;
 import com.reciclajeApp.dto.OfertasDTO;
-import com.reciclajeApp.dto.VentaDTO;
 import com.reciclajeApp.mapper.AplicantesofertasMapper;
-import com.reciclajeApp.mapper.DonacionMapper;
 import com.reciclajeApp.mapper.OfertasMapper;
 import com.reciclajeApp.service.AplicantesofertasService;
-import com.reciclajeApp.service.CarrodonacionesService;
 import com.reciclajeApp.service.EstadoofertaService;
 import com.reciclajeApp.service.OfertasService;
-import com.reciclajeApp.service.OfertasServiceImpl;
 
 @RestController
 @RequestMapping("/api/v1/ofertas")
@@ -94,6 +86,16 @@ public class OfertasController {
 		return ResponseEntity.ok().body(aplicantesOfertasDto);
 	}
 	
+	
+	@DeleteMapping("/deleteOferta/{id}")
+	// guardo lo mandado por el url en el parametro email
+	// ? = puede retornar cualqier cosa
+	public ResponseEntity<?> deleteOferta(@PathVariable("id") Integer id) throws Exception {
+		// borro
+		ofertaService.deleteById(id);
+		return ResponseEntity.ok().build();
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//recicladores
 	@GetMapping("/allOfertasDiponibles")
@@ -123,5 +125,19 @@ public class OfertasController {
 	}
 	
 	
-
+	@GetMapping("/myAplicacionesDisponiblesReciclador/{email}")
+	public ResponseEntity<?> myAplicacionesDisponiblesReciclador(@PathVariable("email") String email) throws Exception {
+		List<Aplicantesofertas> aplicaciones = aplicantesOfertasService.getAplicacionesOfertasEnableByReciclador(email);
+		List<AplicantesofertasDTO> aplicantesDto = aplicantesOfertasMapper.listAplicantesofertasToListAplicantesofertasDTO(aplicaciones);
+		return ResponseEntity.ok().body(aplicantesDto);
+	}
+	
+	@DeleteMapping("/deleteAplicacion/{id}")
+	// guardo lo mandado por el url en el parametro email
+	// ? = puede retornar cualqier cosa
+	public ResponseEntity<?> deleteAplicacion(@PathVariable("id") Integer id) throws Exception {
+		// borro
+		aplicantesOfertasService.deleteById(id);
+		return ResponseEntity.ok().build();
+	}
 }

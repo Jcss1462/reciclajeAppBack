@@ -19,4 +19,9 @@ public interface AplicantesofertasRepository extends JpaRepository<Aplicantesofe
 	@Query("SELECT apl FROM Aplicantesofertas apl WHERE apl.ofertas.idoferta=:idOferta")
 	public List<Aplicantesofertas> getAplicantesByOferta(Integer idOferta);
 	
+	
+	// seleccionos todas la ofetrar disponibles que aplico u reciclador
+	@Query("SELECT apl FROM Aplicantesofertas apl WHERE apl.email_reciclador.email=:email AND apl.ofertas.estadooferta.idestadooferta=1")
+	public List<Aplicantesofertas> getAplicacionesOfertasEnableByReciclador(String email);
+	
 }

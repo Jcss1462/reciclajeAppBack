@@ -79,7 +79,19 @@ public class OfertasServiceImpl implements OfertasService {
 	@Override
 	public void deleteById(Integer id) throws Exception {
 		// TODO Auto-generated method stub
-
+		if (id == null) {
+			throw new Exception("Id vacio");
+		}
+		if (!ofertaRepository.existsById(id)) {
+			throw new Exception("La oferta con id: " + id + " no existe");
+		}
+		//solo se elimina la oferta si su estado es disponible
+		Ofertas oferta= ofertaRepository.findById(id).get();
+		if(oferta.getAplicantesofertases().size()>0) {
+			throw new Exception("La oferta con id: " + id + " ya fue aplicada, y no se puede eliminar");
+		}
+		
+		ofertaRepository.deleteById(id);
 	}
 
 	@Override

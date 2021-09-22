@@ -14,4 +14,6 @@ public interface AplicantesofertasService extends GenericService<Aplicantesofert
 	
 	public List<Aplicantesofertas> getAplicantesByOferta(Integer idOferta) throws Exception;
 	
+	public List<Aplicantesofertas> getAplicacionesOfertasEnableByReciclador(String email) throws Exception;
+	
 }
