@@ -30,15 +30,18 @@ public class Usuario implements java.io.Serializable {
 	@Column(name = "email", unique = true, nullable = false)
 	@NotNull
 	private String email;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idtipousuario")
 	@NotNull
 	private Tipousuario tipousuario;
+	
 	@NotNull
 	@NotEmpty
 	@Size(max = 255)
 	@Column(name = "apellido", nullable = false)
 	private String apellido;
+	
 	@NotNull
 	@NotEmpty
 	@Size(max = 255)

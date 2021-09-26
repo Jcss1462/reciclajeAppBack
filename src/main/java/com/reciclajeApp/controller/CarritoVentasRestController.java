@@ -75,16 +75,20 @@ public class CarritoVentasRestController {
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
 		log.info("fecha actual:" + date1);
 		venta.setFechaventa(date1);
-
+		
 		// establesco toda nueva vebta como disponible
 		Estadoventa estadoVenta = estadoVentaService.findById(1).get();
 		venta.setEstadoventa(estadoVenta);
+		
+		
+		//seteo al comprador como nulo
+		venta.setEmailCentroDeAcopio(null);
+		
 
 		venta = ventaService.save(venta);
 
 		ventaDTO = ventaMapper.ventaToVentaDTO(venta);
-		
-		
+
 		return ResponseEntity.ok().body(ventaDTO);
 
 	}
@@ -95,8 +99,8 @@ public class CarritoVentasRestController {
 	// ? = puede retornar cualqier cosa
 	public ResponseEntity<?> findMyVentas(@PathVariable("email") String email) throws Exception {
 
-		List<Venta> ventas = ventaService.findAllVentasByUser(email);
-		
+		List<Venta> ventas = ventaService.findAllVentasByUserDisponiblesNoAplicadas(email);
+
 		List<VentaDTO> ventasDto = ventaMapper.listVentaToListVentaDTO(ventas);
 
 		return ResponseEntity.ok().body(ventasDto);
@@ -121,9 +125,8 @@ public class CarritoVentasRestController {
 	// guardo lo mandado por el url en el parametro email
 	// ? = puede retornar cualqier cosa
 	public ResponseEntity<?> listTipoResiduo() throws Exception {
-		
-		 
-		List<Tiporesiduo>tipoResiduos = tipoResiduoService.findAll();
+
+		List<Tiporesiduo> tipoResiduos = tipoResiduoService.findAll();
 		List<TiporesiduoDTO> tipoResiduosDTO = tipoResiduoMapper.listTiporesiduoToListTiporesiduoDTO(tipoResiduos);
 
 		return ResponseEntity.ok().body(tipoResiduosDTO);
@@ -142,25 +145,28 @@ public class CarritoVentasRestController {
 		return ResponseEntity.ok().build();
 
 	}
-	
-	
+
 	@PutMapping("/updateVenta")
 	// envio los datos por el body de la peticion http
 	// @valid valida la entrada
 	public ResponseEntity<?> updateVenta(@Valid @RequestBody VentaDTO ventaDTO) throws Exception {
-
+		
 		// mapeo lo que recibo a product
 		Venta venta = ventaMapper.ventaDTOToVenta(ventaDTO);
 		
-		
-		//coloco la nueva fecha
+		//prevengo error al mapear el centro de acopio nulo
+		if(ventaDTO.getEmailCentroDeAcopio()==null) {
+			venta.setEmailCentroDeAcopio(null);
+		}
+
+		// coloco la nueva fecha
 		Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(LocalDate.now().toString());
 		log.info("fecha actual:" + date1);
 		venta.setFechaventa(date1);
-		
-		//actualizo
-		venta=ventaService.update(venta);
-		
+
+		// actualizo
+		venta = ventaService.update(venta);
+
 		// convierto lo guardo a dto para retornarlo
 		ventaDTO = ventaMapper.ventaToVentaDTO(venta);
 

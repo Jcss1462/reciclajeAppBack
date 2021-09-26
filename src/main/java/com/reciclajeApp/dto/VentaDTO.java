@@ -28,13 +28,17 @@ public class VentaDTO implements Serializable {
     private String email_Usuario;
     private String tipo;
     private Double precioPorKiloTipo;
+    
+    private String emailCentroDeAcopio;
 	
     public VentaDTO() {
 		super();
 	}
 
+
 	public VentaDTO(Date fechaventa, Integer idventa, @NotNull Double peso, @NotNull Double total,
-			Integer idestadoventa_Estadoventa, Integer idtiporesiduo_Tiporesiduo, String email_Usuario, String tipo, Double precioPorKiloTipo) {
+			Integer idestadoventa_Estadoventa, Integer idtiporesiduo_Tiporesiduo, String email_Usuario,
+			String emailCentroDeAcopio, String tipo, Double precioPorKiloTipo) {
 		super();
 		this.fechaventa = fechaventa;
 		this.idventa = idventa;
@@ -43,9 +47,12 @@ public class VentaDTO implements Serializable {
 		this.idestadoventa_Estadoventa = idestadoventa_Estadoventa;
 		this.idtiporesiduo_Tiporesiduo = idtiporesiduo_Tiporesiduo;
 		this.email_Usuario = email_Usuario;
-		this.tipo=tipo;
-		this.precioPorKiloTipo=precioPorKiloTipo;
+		this.emailCentroDeAcopio = emailCentroDeAcopio;
+		this.tipo = tipo;
+		this.precioPorKiloTipo = precioPorKiloTipo;
 	}
+
+
 
 	public Date getFechaventa() {
 		return fechaventa;
@@ -122,8 +129,15 @@ public class VentaDTO implements Serializable {
 	public void setPrecioPorKiloTipo(Double precioPorKiloTipo) {
 		this.precioPorKiloTipo = precioPorKiloTipo;
 	}
-	
 
-    
+	public String getEmailCentroDeAcopio() {
+		return emailCentroDeAcopio;
+	}
+
+	public void setEmailCentroDeAcopio(String emailCentroDeAcopio) {
+		this.emailCentroDeAcopio = emailCentroDeAcopio;
+	}
+
+	
     
 }

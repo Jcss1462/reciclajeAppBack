@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.reciclajeApp.domain.Usuario;
 import com.reciclajeApp.domain.Venta;
 import com.reciclajeApp.repository.VentaRepository;
 
@@ -132,14 +131,56 @@ public class VentaServiceImpl implements VentaService {
 	}
 
 	@Override
-	public List<Venta> findAllVentasByUser(String email) throws Exception {
+	public List<Venta> findAllVentasByUserDisponiblesNoAplicadas(String email) throws Exception {
 
 		if (email == null || email.isBlank()) {
 			throw new Exception("Email no ingresado");
 		}
 
 		// TODO Auto-generated method stub
-		return ventaRepository.findAllVentasByUser(email);
+		return ventaRepository.findAllVentasByRecicladorDisponiblesNoAplicadas(email);
+	}
+
+	@Override
+	public List<Venta> findVentasDisponiblesNoAplicadasPorCentroDeAcopio(String email) throws Exception {
+		
+		if (email == null || email.isBlank()) {
+			throw new Exception("Email no ingresado");
+		}
+
+		return ventaRepository.findVentasDisponiblesNoAplicadasPorCentroDeAcopio(email);
+	}
+
+	@Override
+	public List<Venta> findVentasByCentroDeAcopio(String email) throws Exception {
+		
+		if (email == null || email.isBlank()) {
+			throw new Exception("Email no ingresado");
+		}
+
+		return ventaRepository.findVentasByCentroDeAcopio(email);
+	}
+
+	@Override
+	public List<Venta> findVentasDisponiblesByRecicladorAplicadas(String email) throws Exception {
+		
+		if (email == null || email.isBlank()) {
+			throw new Exception("Email no ingresado");
+		}
+
+		return ventaRepository.findVentasDisponiblesByRecicladorAplicadas(email);
+		
+	}
+
+	@Override
+	public List<Venta> findVentasVendidasByReciclador(String email) throws Exception {
+		
+
+		if (email == null || email.isBlank()) {
+			throw new Exception("Email no ingresado");
+		}
+		
+		return ventaRepository.findVentasVendidasByReciclador(email);
 	}
 
 }
