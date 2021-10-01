@@ -38,9 +38,9 @@ import com.reciclajeApp.service.VisitarecicladoresService;
 @SpringBootTest
 @Rollback(false)
 @TestMethodOrder(OrderAnnotation.class)
-class OfertasTest {
+class OfertasCentroAcopioTest {
 
-	private final static Logger log = LoggerFactory.getLogger(OfertasTest.class);
+	private final static Logger log = LoggerFactory.getLogger(OfertasCentroAcopioTest.class);
 
 	@Autowired
 	VentaService ventaService;

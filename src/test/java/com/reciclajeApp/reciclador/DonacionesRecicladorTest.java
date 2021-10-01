@@ -53,7 +53,7 @@ class DonacionesRecicladorTest {
 
 	@Test
 	@Order(1)
-	void donacionesDesponiblesPorReciclador() throws Exception {
+	void donacionesDisponiblesPorReciclador() throws Exception {
 
 		carroDonacionService.findAllByByEnableNoAplicados("jcss1462@gmail.com");
 
