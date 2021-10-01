@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.reciclajeApp.domain.Tiporesiduo;
+import com.reciclajeApp.domain.Venta;
 import com.reciclajeApp.repository.TiporesiduoRepository;
 
 /**
@@ -37,8 +38,17 @@ public class TiporesiduoServiceImpl implements TiporesiduoService{
 
 	@Override
 	public Optional<Tiporesiduo> findById(Integer id) throws Exception {
+
+		if (id == null) {
+			throw new Exception("Id vacio");
+		}
+		if (!tiporesiduoRepository.existsById(id)) {
+
+			throw new Exception("El tipo residuo con id: " + id + " no existe");
+		}
+		Optional<Tiporesiduo> tipoResiduoOptional = tiporesiduoRepository.findById(id);
 		// TODO Auto-generated method stub
-		return null;
+		return tipoResiduoOptional;
 	}
 
 	@Override
